@@ -1,5 +1,5 @@
 Resources:
-  SampleFunction:
+  InsertItemFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handler/lambda.handler
