@@ -19,3 +19,5 @@ sam local start-api --docker-network otel-network
 ```
 
 Click on the link in console after running sam local start-api command to invoke the lambda function locally.
+
+Traces should show up in Jaeger UI locally at http://localhost:16686/
