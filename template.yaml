@@ -1,0 +1,15 @@
+Resources:
+  SampleFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/lambda.handler
+      Runtime: nodejs18.x
+     Environment:
+        Variables:
+          NODE_OPTIONS: "--require=lambda-wrapper"      
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: get

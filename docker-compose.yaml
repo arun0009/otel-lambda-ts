@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  localstack:
+    image: localstack/localstack
+    container_name: localstack
+    hostname: localstack
+    ports:
+      - "4566-4599:4566-4599" # Port range for LocalStack services
+    environment:
+      - SERVICES=sqs
+      - DEFAULT_REGION=us-east-1
+      - HOSTNAME_EXTERNAL=localhost
+    networks:
+      - otel-network
+    volumes:
+      - ./localstack:/etc/localstack/init/ready.d/
+  
+  jaeger:
+    image: jaegertracing/all-in-one
+    container_name: jaeger
+    hostname: jaeger
+    ports:
+      - "16686:16686" # Jaeger UI port
+      - "14268"
+      - "14250"
+    networks:
+      - otel-network
+
+  otel-collector:
+    image: otel/opentelemetry-collector
+    container_name: otel-collector
+    hostname: otel-collector
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./otel-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - "13133:13133" # health_check extension
+      - "4317:4317" # gRPC port
+      - "4318:4318" # HTTP port
+    depends_on:
+      - jaeger  
+    networks:
+      - otel-network
+   
+networks:
+  otel-network:
