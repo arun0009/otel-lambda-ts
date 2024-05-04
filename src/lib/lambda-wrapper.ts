@@ -43,7 +43,6 @@ function defaultConfigureInstrumentations() {
   ]
 }
 
-
 console.log('Registering OpenTelemetry');
 
 const instrumentations = [
@@ -53,7 +52,8 @@ const instrumentations = [
   }),
   new AwsLambdaInstrumentation({
     disableAwsContextPropagation: true,
-  })
+  }),
+  defaultConfigureInstrumentations(),
 ];
 
 // configure lambda logging
