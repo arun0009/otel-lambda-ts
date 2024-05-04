@@ -2,14 +2,17 @@ Resources:
   SampleFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/lambda.handler
+      Handler: src/handler/lambda.handler
       Runtime: nodejs18.x
-     Environment:
+      Environment:
         Variables:
-          NODE_OPTIONS: "--require=lambda-wrapper"      
+          NODE_OPTIONS: "--require=src/lib/lambda-wrapper"   
+          OTEL_SERVICE_NAME: otel-lambda-ts
+          OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: http://otel-collector:4317/v1/traces
+          OTEL_LOG_LEVEL: DEBUG   
       Events:
         HelloWorld:
           Type: Api
           Properties:
-            Path: /hello
+            Path: /items
             Method: get

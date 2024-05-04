@@ -8,13 +8,15 @@ services:
     ports:
       - "4566-4599:4566-4599" # Port range for LocalStack services
     environment:
-      - SERVICES=sqs
+      - SERVICES=dynamodb,sqs
       - DEFAULT_REGION=us-east-1
       - HOSTNAME_EXTERNAL=localhost
+      - DEBUG=1
     networks:
       - otel-network
     volumes:
-      - ./localstack:/etc/localstack/init/ready.d/
+      - ./init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh
+      - /var/run/docker.sock:/var/run/docker.sock
   
   jaeger:
     image: jaegertracing/all-in-one
@@ -45,3 +47,4 @@ services:
    
 networks:
   otel-network:
+    name: otel-network

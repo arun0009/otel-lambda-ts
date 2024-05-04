@@ -2,5 +2,5 @@
 awslocal dynamodb create-table \
     --table-name items \
     --attribute-definitions AttributeName=id,AttributeType=S \
-    --key-schema AttributeName=id,AttributeType=HASH \
-    --provisioned-throughput ReadCapacityUnit=1,WriteCapacityUnit=1    
+    --key-schema AttributeName=id,KeyType=HASH \
+    --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1
